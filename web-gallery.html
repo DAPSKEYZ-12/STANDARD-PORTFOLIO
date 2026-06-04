@@ -3,124 +3,725 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Gallery | D-MATHS</title>
+    <title>Web Development Gallery | D-MATHS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <style>
         :root {
-            --primary: #020617;
+            --primary: #0a0f1f;
+            --ink: #1a1f2e;
+            --muted: #5b6478;
             --accent: #2563eb;
+            --accent-glow: rgba(37, 99, 235, 0.18);
             --orange: #f97316;
-            --bg-subtle: #f8fafc;
+            --violet: #7c3aed;
+            --emerald: #10b981;
+            --rose: #e11d48;
+            --paper: #fafaf7;
+            --paper-2: #f4f3ee;
+            --line: rgba(10, 15, 31, 0.08);
+            --glass: rgba(255, 255, 255, 0.78);
+            --display: 'Fraunces', Georgia, serif;
+            --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+            --shadow-sm: 0 2px 8px rgba(10, 15, 31, 0.04);
+            --shadow-md: 0 10px 30px -10px rgba(10, 15, 31, 0.08);
+            --shadow-lg: 0 30px 60px -20px rgba(10, 15, 31, 0.18);
+            --t: 0.45s cubic-bezier(0.22, 1, 0.36, 1);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
-            background:
-                radial-gradient(circle at 0% 0%, rgba(37, 99, 235, 0.15), transparent 35%),
-                radial-gradient(circle at 100% 100%, rgba(249, 115, 22, 0.12), transparent 40%),
-                var(--bg-subtle);
+            font-family: var(--sans);
             color: var(--primary);
-            padding-bottom: 50px;
+            background: var(--paper);
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 1;
+            opacity: 0.5;
+            mix-blend-mode: multiply;
+        }
+        ::selection { background: var(--primary); color: var(--orange); }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--paper); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 0; }
+
+        /* ============ HEADER ============ */
+        .gallery-header {
+            padding: 50px 6% 60px;
+            background: var(--paper);
+            border-bottom: 1px solid var(--line);
+            position: relative;
+            overflow: hidden;
+        }
+        .gallery-header::before {
+            content: ''; position: absolute;
+            top: -200px; right: -100px;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, var(--accent-glow), transparent 70%);
+            border-radius: 50%; filter: blur(40px);
+        }
+        .header-inner { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; }
+
+        .breadcrumb {
+            display: inline-flex; align-items: center; gap: 8px;
+            text-decoration: none;
+            font-size: 0.85rem; font-weight: 600; color: var(--muted);
+            padding: 8px 14px;
+            border: 1px solid var(--line); border-radius: 999px;
+            background: white;
+            transition: var(--t);
+            margin-bottom: 30px;
+        }
+        .breadcrumb:hover {
+            color: var(--accent); border-color: var(--accent); transform: translateX(-3px);
+        }
+        .breadcrumb i { transition: var(--t); }
+        .breadcrumb:hover i { transform: translateX(-3px); }
+
+        .header-grid {
+            display: grid; grid-template-columns: 1.4fr 1fr;
+            gap: 50px; align-items: end;
         }
 
-        .header {
-            padding: 60px 8% 40px;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            text-align: center;
+        .section-tag {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 0.78rem; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            color: var(--accent); margin-bottom: 16px;
         }
-        .btn-back {
-            text-decoration: none; color: var(--accent); font-weight: 700;
-            display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px;
-            transition: 0.3s;
+        .section-tag::before {
+            content: ''; width: 28px; height: 1px; background: var(--accent);
         }
-        .btn-back:hover { transform: translateX(-5px); color: var(--orange); }
 
+        .gallery-header h1 {
+            font-family: var(--display);
+            font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+            font-weight: 700;
+            line-height: 0.98;
+            letter-spacing: -2.5px;
+        }
+        .gallery-header h1 .italic {
+            font-style: italic; font-weight: 400;
+            background: linear-gradient(95deg, var(--accent), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gallery-header .lead {
+            font-size: 1.05rem; color: var(--muted);
+            max-width: 480px; margin-left: auto;
+        }
+
+        /* ============ FILTERS ============ */
+        .toolbar {
+            padding: 24px 6%;
+            position: sticky; top: 0; z-index: 100;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--line);
+        }
+        .toolbar-inner {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 20px; flex-wrap: wrap;
+        }
+        .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+        .filter-btn {
+            padding: 9px 16px; border-radius: 999px;
+            background: white; border: 1px solid var(--line);
+            font-family: var(--sans);
+            font-weight: 700; font-size: 0.82rem;
+            color: var(--ink); cursor: pointer;
+            transition: var(--t);
+            display: inline-flex; align-items: center; gap: 7px;
+        }
+        .filter-btn .count {
+            background: var(--paper-2);
+            padding: 1px 7px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--muted);
+            transition: var(--t);
+        }
+        .filter-btn:hover { border-color: var(--primary); }
+        .filter-btn.active {
+            background: var(--primary); color: white; border-color: var(--primary);
+        }
+        .filter-btn.active .count { background: var(--orange); color: var(--primary); }
+
+        .results-count {
+            font-size: 0.85rem; color: var(--muted); font-weight: 600;
+        }
+        .results-count strong { color: var(--primary); }
+
+        /* ============ GRID ============ */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px; padding: 50px 8%;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px;
+            padding: 50px 6% 80px;
+            max-width: 1400px; margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
 
         .work-item {
-            background: white; border-radius: 24px; overflow: hidden;
-            border: 1px solid rgba(37, 99, 235, 0.08);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: 0.4s;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            transition: var(--t);
+            position: relative;
+            display: flex; flex-direction: column;
+            opacity: 1;
         }
-        .work-item:hover { transform: translateY(-10px); box-shadow: 0 18px 35px rgba(2, 6, 23, 0.12); }
-        .work-img { height: 250px; background: #e2e8f0; width: 100%; }
-        .work-img img { width: 100%; height: 100%; object-fit: cover; }
+        .work-item.hidden {
+            display: none;
+        }
+        .work-item:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(37, 99, 235, 0.25);
+        }
 
-        .work-info { padding: 25px; }
-        .work-info h3 { margin-bottom: 10px; font-size: 1.3rem; }
-        .work-info p { color: #64748b; font-size: 0.95rem; line-height: 1.5; }
+        .work-img {
+            position: relative;
+            aspect-ratio: 16/10;
+            background: var(--paper-2);
+            overflow: hidden;
+        }
+        .work-img img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .work-img .work-preview + img {
+            position: absolute; inset: 0;
+            z-index: 2;
+        }
+        .work-item:hover .work-img img { transform: scale(1.07); }
 
+        /* Placeholder previews for projects without screenshots */
+        .work-preview {
+            width: 100%; height: 100%;
+            display: grid; place-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .work-preview .pattern {
+            position: absolute; inset: 0;
+            opacity: 0.6;
+        }
+        .work-preview .label {
+            position: relative; z-index: 2;
+            font-family: var(--display);
+            font-style: italic;
+            font-size: 2.2rem;
+            color: white;
+            text-shadow: 0 4px 24px rgba(0,0,0,0.3);
+            letter-spacing: -1px;
+            text-align: center;
+            padding: 0 20px;
+        }
+        .preview-ija { background: linear-gradient(135deg, #2563eb, #7c3aed); }
+        .preview-game { background: linear-gradient(135deg, #7c3aed, #e11d48); }
+        .preview-poreia { background: linear-gradient(135deg, #0f766e, #2563eb); }
+        .preview-yr4 { background: linear-gradient(135deg, #f97316, #e11d48); }
+        .preview-ks2 { background: linear-gradient(135deg, #2563eb, #10b981); }
+        .preview-portal { background: linear-gradient(135deg, #1e293b, #2563eb); }
+
+        .preview-grid-bg {
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .badges-row {
+            position: absolute;
+            top: 14px; left: 14px;
+            display: flex; gap: 6px; z-index: 3;
+        }
+        .badge {
+            font-size: 0.7rem; font-weight: 800;
+            letter-spacing: 0.8px; text-transform: uppercase;
+            padding: 5px 10px;
+            border-radius: 6px;
+            display: inline-flex; align-items: center; gap: 5px;
+        }
+        .badge-live { background: var(--emerald); color: white; }
+        .badge-live .pulse {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: white;
+            animation: live-pulse 1.5s infinite;
+        }
+        @keyframes live-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .badge-new { background: var(--orange); color: var(--primary); }
+        .badge-archive { background: rgba(255,255,255,0.85); color: var(--muted); backdrop-filter: blur(6px); }
+
+        .work-info {
+            padding: 22px 22px 24px;
+            flex: 1;
+            display: flex; flex-direction: column;
+        }
+        .work-cat {
+            display: inline-block;
+            font-size: 0.7rem; font-weight: 700;
+            letter-spacing: 1.2px; text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        .work-info h3 {
+            font-family: var(--display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.4px;
+            margin-bottom: 10px;
+        }
+        .work-info p {
+            color: var(--muted);
+            font-size: 0.88rem;
+            line-height: 1.55;
+            margin-bottom: 16px;
+            flex: 1;
+        }
+
+        .tech-stack {
+            display: flex; flex-wrap: wrap; gap: 5px;
+            margin-bottom: 18px;
+        }
+        .tech-stack span {
+            font-size: 0.7rem; font-weight: 700;
+            padding: 4px 9px;
+            border-radius: 5px;
+            background: var(--paper-2);
+            color: var(--ink);
+        }
+
+        .work-actions {
+            display: flex; gap: 8px;
+            padding-top: 16px;
+            border-top: 1px solid var(--line);
+        }
+        .action-btn {
+            flex: 1;
+            display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+            padding: 11px 14px;
+            border-radius: 10px;
+            font-size: 0.82rem; font-weight: 700;
+            text-decoration: none;
+            transition: var(--t);
+            font-family: var(--sans);
+            cursor: pointer;
+            border: none;
+        }
+        .btn-demo {
+            background: var(--primary); color: white;
+        }
+        .btn-demo:hover {
+            background: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px -6px var(--accent-glow);
+        }
+        .btn-demo .arrow { transition: var(--t); }
+        .btn-demo:hover .arrow { transform: translate(2px, -2px); }
+        .btn-info {
+            background: var(--paper-2);
+            color: var(--primary);
+            flex: 0 0 auto;
+            min-width: 44px;
+        }
+        .btn-info:hover { background: var(--orange); color: var(--primary); }
+        .btn-disabled {
+            background: var(--paper-2);
+            color: var(--muted);
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* ============ EMPTY STATE ============ */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--muted);
+            display: none;
+        }
+        .empty-state.show { display: block; }
+        .empty-state i { font-size: 3rem; color: var(--line); margin-bottom: 20px; }
+        .empty-state h3 { font-family: var(--display); font-size: 1.6rem; color: var(--primary); margin-bottom: 8px; }
+
+        /* ============ FOOTER ============ */
+        footer {
+            padding: 50px 6% 30px;
+            background: var(--primary); color: var(--paper);
+            text-align: center;
+            position: relative; z-index: 2;
+        }
+        footer .footnote {
+            font-family: var(--display); font-style: italic;
+            font-size: 1.1rem; opacity: 0.7;
+            margin-bottom: 8px;
+        }
+        footer .copyright { font-size: 0.85rem; color: rgba(255,255,255,0.4); }
+
+        /* ============ MOBILE ============ */
         @media (max-width: 768px) {
-            .header { padding-top: 40px; }
-            .gallery-grid { padding: 30px 5%; }
+            .gallery-header { padding: 30px 5% 40px; }
+            .header-grid { grid-template-columns: 1fr; gap: 24px; }
+            .gallery-header .lead { margin-left: 0; max-width: 100%; }
+            .gallery-grid { padding: 40px 5%; gap: 18px; grid-template-columns: 1fr; }
+            .toolbar { padding: 16px 5%; }
+            .filters { gap: 6px; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 6px; }
+            .filter-btn { white-space: nowrap; flex-shrink: 0; }
+            .results-count { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <header class="header">
-        <a href="index.html" class="btn-back"><i class="fas fa-arrow-left"></i> Back to Portfolio</a>
-        <h1 data-aos="fade-down">Project Showcase</h1>
-        <p data-aos="fade-up">A deep dive into my specialized works</p>
+    <header class="gallery-header">
+        <div class="header-inner">
+            <a href="index.html" class="breadcrumb"><i class="fas fa-arrow-left"></i> Back to portfolio</a>
+            <div class="header-grid">
+                <div data-aos="fade-up">
+                    <div class="section-tag">Web Development</div>
+                    <h1>Things I've <span class="italic">built</span> for the web.</h1>
+                </div>
+                <p class="lead" data-aos="fade-up" data-aos-delay="120">
+                    Assessment platforms, full-stack portals, and games — each shipped, deployed, and used by real students. Click <strong>Live Demo</strong> to open any project.
+                </p>
+            </div>
+        </div>
     </header>
 
-    <div class="gallery-grid">
-        <div class="work-item" data-aos="zoom-in">
-            <div class="work-img"><img src="assets/web-project/web.jpg" alt="Work 1"></div>
-            <div class="work-info">
-                <h3>Landing Page For Mathematics Hack</h3>
-                <p>Made use of HTML, CSS and JAVASCRIPT to create a landing page for the online programme organized by D-MATHS himself.</p>
+    <div class="toolbar">
+        <div class="toolbar-inner">
+            <div class="filters" id="filters">
+                <button class="filter-btn active" data-filter="all">All <span class="count">11</span></button>
+                <button class="filter-btn" data-filter="live">🟢 Live <span class="count">6</span></button>
+                <button class="filter-btn" data-filter="cbt">CBT Systems <span class="count">5</span></button>
+                <button class="filter-btn" data-filter="game">Games <span class="count">3</span></button>
+                <button class="filter-btn" data-filter="fullstack">Full Stack <span class="count">2</span></button>
+                <button class="filter-btn" data-filter="archive">Archive <span class="count">5</span></button>
             </div>
-        </div>
-
-        <div class="work-item" data-aos="zoom-in" data-aos-delay="100">
-            <div class="work-img"><img src="assets/web-project/cbt1.jpg" alt="Work 2"></div>
-            <div class="work-info">
-                <h3>Learners Based CBT Test to enhance there Learning of Quadratic Equation</h3>
-                <p>Made use of HTML, CSS and JAVASCRIPT.</p>
-            </div>
-        </div>
-
-        <div class="work-item" data-aos="zoom-in" data-aos-delay="200">
-            <div class="work-img"><img src="assets/web-project/snake.jpg" alt="Work 3"></div>
-            <div class="work-info">
-                <h3>A Clone of Snake Game</h3>
-                <p> Made use of Python </p>
-            </div>
-        </div>
-
-        <div class="work-item" data-aos="zoom-in" data-aos-delay="300">
-            <div class="work-img"><img src="assets/web-project/circletheorem.jpg" alt="Work 4"></div>
-            <div class="work-info">
-                <h3>Learners Based CBT Test to enhance there Learning of Circle Theorem</h3>
-                <p>Made use of HTML, CSS and JAVASCRIPT </p>
-            </div>
-        </div>
-
-        <div class="work-item" data-aos="zoom-in" data-aos-delay="400">
-            <div class="work-img"><img src="assets/web-project/starship.jpg" alt="Work 5"></div>
-            <div class="work-info">
-                <h3>A Full Stack game of an airspace game</h3>
-                <p>Made use of Python, Pygame </p>
-            </div>
-        </div>
-
-         <div class="work-item" data-aos="zoom-in" data-aos-delay="500">
-            <div class="work-img"><img src="assets/web-project/portal.jpg" alt="Work 6"></div>
-            <div class="work-info">
-                <h3>A Fullstack Standard School Portal for LISS with a full database management and a login for both admin, staff and Students with there respective dashboard</h3>
-                <p>Made use of HTML, CSS, JS and PHP for backend </p>
-            </div>
+            <div class="results-count">Showing <strong id="visibleCount">11</strong> of 11 projects</div>
         </div>
     </div>
 
+    <div class="gallery-grid" id="grid">
+
+        <!-- ============ NEW LIVE PROJECTS ============ -->
+
+        <div class="work-item" data-aos="fade-up" data-tags="live cbt">
+            <div class="work-img">
+                <div class="badges-row">
+                    <span class="badge badge-live"><span class="pulse"></span> Live</span>
+                    <span class="badge badge-new">New</span>
+                </div>
+                <div class="work-preview preview-ija">
+                    <div class="preview-grid-bg"></div>
+                    <div class="label">IJA<br>CBT</div>
+                </div>
+            </div>
+            <div class="work-info">
+                <span class="work-cat">CBT Platform</span>
+                <h3>IJA School Assessment Platform</h3>
+                <p>Computer-based test platform built for IJA students — covering multiple subjects with timed sessions, instant scoring, and a clean test-taking interface.</p>
+                <div class="tech-stack"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Vercel</span></div>
+                <div class="work-actions">
+                    <a href="https://ija-cbt.vercel.app" target="_blank" rel="noopener noreferrer" class="action-btn btn-demo">
+                        Live Demo <span class="arrow">↗</span>
+                    </a>
+                    <button class="action-btn btn-info" title="Project info" aria-label="More info"><i class="fa-solid fa-info"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="work-item" data-aos="fade-up" data-aos-delay="50" data-tags="live game">
+            <div class="work-img">
+                <div class="badges-row">
+                    <span class="badge badge-live"><span class="pulse"></span> Live</span>
+                    <span class="badge badge-new">New</span>
+                </div>
+                <div class="work-preview preview-game">
+                    <div class="preview-grid-bg"></div>
+                    <div class="label">IJA<br>Math Game</div>
+                </div>
+            </div>
+            <div class="work-info">
+                <span class="work-cat">Educational Game</span>
+                <h3>IJA Math Learning Game</h3>
+                <p>Interactive browser-based math game designed to gamify learning for younger IJA students. Built with vanilla JavaScript — runs anywhere, no install needed.</p>
+                <div class="tech-stack"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Vercel</span></div>
+                <div class="work-actions">
+                    <a href="https://ija-game.vercel.app" target="_blank" rel="noopener noreferrer" class="action-btn btn-demo">
+                        Live Demo <span class="arrow">↗</span>
+                    </a>
+                    <button class="action-btn btn-info" title="Project info"><i class="fa-solid fa-info"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="work-item" data-aos="fade-up" data-aos-delay="100" data-tags="live">
+            <div class="work-img">
+                <div class="badges-row">
+                    <span class="badge badge-live"><span class="pulse"></span> Live</span>
+                    <span class="badge badge-new">New</span>
+                </div>
+                <div class="work-preview preview-poreia">
+                    <div class="preview-grid-bg"></div>
+                    <div class="label">Nea<br>Poreia</div>
+                </div>
+            </div>
+            <div class="work-info">
+                <span class="work-cat">Education Platform</span>
+                <h3>Nea Poreia — Learning Hub</h3>
+                <p>An educational platform deployed for structured learning — "Nea Poreia" meaning <em>new path</em>. Built as a self-contained web app for student onboarding and content delivery.</p>
+                <div class="tech-stack"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Vercel</span></div>
+                <div class="work-actions">
+                    <a href="https://nea-poreia.vercel.app" target="_blank" rel="noopener noreferrer" class="action-btn btn-demo">
+                        Live Demo <span class="arrow">↗</span>
+                    </a>
+                    <button class="action-btn btn-info" title="Project info"><i class="fa-solid fa-info"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="work-item" data-aos="fade-up" data-aos-delay="150" data-tags="live cbt">
+            <div class="work-img">
+                <div class="badges-row">
+                    <span class="badge badge-live"><span class="pulse"></span> Live</span>
+                    <span class="badge badge-new">New</span>
+                </div>
+                <div class="work-preview preview-yr4">
+                    <div class="preview-grid-bg"></div>
+                    <div class="label">Year 4<br>CBT</div>
+                </div>
+            </div>
+            <div class="work-info">
+                <span class="work-cat">CBT Platform</span>
+                <h3>Year 4 CBT Assignment Portal</h3>
+                <p>A targeted CBT system for Year 4 learners — featuring assignment-style questions with progress tracking and age-appropriate UI. Mobile-friendly for tablet-based assessments.</p>
+                <div class="tech-stack"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Vercel</span></div>
+                <div class="work-actions">
+                    <a href="https://yr-4-cbtassignment.vercel.app" target="_blank" rel="noopener noreferrer" class="action-btn btn-demo">
+                        Live Demo <span class="arrow">↗</span>
+                    </a>
+                    <button class="action-btn btn-info" title="Project info"><i class="fa-solid fa-info"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="work-item" data-aos="fade-up" data-aos-delay="200" data-tags="live cbt">
+            <div class="work-img">
+                <div class="badges-row">
+                    <span class="badge badge-live"><span class="pulse"></span> Live</span>
+                    <span class="badge badge-new">New</span>
+                </div>
+                <div class="work-preview preview-ks2">
+                    <div class="preview-grid-bg"></div>
+                    <div class="label">KS2<br>CBT</div>
+                </div>
+            </div>
+            <div class="work-info">
+                <span class="work-cat">CBT Platform</span>
+                <h3>Key Stage 2 CBT System</h3>
+                <p>Assessment platform aligned to the Key Stage 2 curriculum. Question banks across subjects, randomised ordering, and a results screen designed for younger students to understand.</p>
+                <div class="tech-stack"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Vercel</span></div>
+                <div class="work-actions">
+                    <a href="https://ks2cbt.vercel.app" target="_blank" rel="noopener noreferrer" class="action-btn btn-demo">
+                        Live Demo <span class="arrow">↗</span>
+                    </a>
+                    <button class="action-btn btn-info" title="Project info"><i class="fa-solid fa-info"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ LIVE FULL STACK PORTAL ============ -->
+
+        <div class="work-item" data-aos="fade-up" data-aos-delay="250" data-tags="live fullstack">
+            <div class="work-img">
+                <div class="badges-row">
+                    <span class="badge badge-live"><span class="pulse"></span> Live</span>
+                </div>
+                <div class="work-preview preview-portal">
+                    <div class="preview-grid-bg"></div>
+                    <div class="label">D-Maths<br>Portal</div>
+                </div>
+            </div>
+            <div class="work-info">
+                <span class="work-cat">Full Stack Portal</span>
+                <h3>D-Maths Tutoring Portal</h3>
+                <p>A complete student/admin portal with authentication, dashboards, and content delivery. The flagship build — used to run the live D-Maths tutoring programme.</p>
+                <div class="tech-stack"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Vercel</span></div>
+                <div class="work-actions">
+                    <a href="https://d-maths-portal.vercel.app" target="_blank" rel="noopener noreferrer" class="action-btn btn-demo">
+                        Live Demo <span class="arrow">↗</span>
+                    </a>
+                    <button class="action-btn btn-info" title="Project info"><i class="fa-solid fa-info"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ ARCHIVE / EARLIER WORK ============ -->
+
+        <div class="work-item" data-aos="fade-up" data-tags="archive">
+            <div class="work-img">
+                <div class="badges-row"><span class="badge badge-archive">Archive</span></div>
+                <div class="work-preview preview-portal"><div class="preview-grid-bg"></div><div class="label">Maths<br>Hack</div></div>
+                <img src="assets/web-project/web.jpg" alt="Maths Hack Landing Page" onerror="this.style.display='none'">
+            </div>
+            <div class="work-info">
+                <span class="work-cat">Landing Page</span>
+                <h3>Mathematics Hack Landing Page</h3>
+                <p>The marketing landing page for the Mathematics Hack online programme — built from scratch with HTML, CSS, and JavaScript.</p>
+                <div class="tech-stack"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+                <div class="work-actions">
+                    <span class="action-btn btn-disabled"><i class="fa-solid fa-clock-rotate-left"></i> Earlier build</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="work-item" data-aos="fade-up" data-aos-delay="50" data-tags="archive cbt">
+            <div class="work-img">
+                <div class="badges-row"><span class="badge badge-archive">Archive · v1</span></div>
+                <div class="work-preview preview-ija"><div class="preview-grid-bg"></div><div class="label">Quadratic<br>CBT</div></div>
+                <img src="assets/web-project/cbt1.jpg" alt="Quadratic CBT" onerror="this.style.display='none'">
+            </div>
+            <div class="work-info">
+                <span class="work-cat">CBT · Topic-Specific</span>
+                <h3>Quadratic Equation CBT</h3>
+                <p>First-iteration CBT focused entirely on quadratic equations — the build that informed the architecture of the newer IJA / KS2 / Year 4 systems.</p>
+                <div class="tech-stack"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+                <div class="work-actions">
+                    <span class="action-btn btn-disabled"><i class="fa-solid fa-clock-rotate-left"></i> Earlier build</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="work-item" data-aos="fade-up" data-aos-delay="100" data-tags="archive cbt">
+            <div class="work-img">
+                <div class="badges-row"><span class="badge badge-archive">Archive · v1</span></div>
+                <div class="work-preview preview-ks2"><div class="preview-grid-bg"></div><div class="label">Circle<br>Theorem</div></div>
+                <img src="assets/web-project/circletheorem.jpg" alt="Circle Theorem CBT" onerror="this.style.display='none'">
+            </div>
+            <div class="work-info">
+                <span class="work-cat">CBT · Topic-Specific</span>
+                <h3>Circle Theorem CBT</h3>
+                <p>Same engine as the Quadratic build but retooled for Circle Theorem — the second proof-of-concept before consolidating into multi-subject platforms.</p>
+                <div class="tech-stack"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
+                <div class="work-actions">
+                    <span class="action-btn btn-disabled"><i class="fa-solid fa-clock-rotate-left"></i> Earlier build</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="work-item" data-aos="fade-up" data-aos-delay="150" data-tags="archive game">
+            <div class="work-img">
+                <div class="badges-row"><span class="badge badge-archive">Archive</span></div>
+                <div class="work-preview preview-game"><div class="preview-grid-bg"></div><div class="label">Snake<br>Game</div></div>
+                <img src="assets/web-project/snake.jpg" alt="Snake Game" onerror="this.style.display='none'">
+            </div>
+            <div class="work-info">
+                <span class="work-cat">Python Game</span>
+                <h3>Snake Game Clone</h3>
+                <p>Classic Snake re-implemented in Python — built as a Python fundamentals project covering game loops, collision detection, and state management.</p>
+                <div class="tech-stack"><span>Python</span></div>
+                <div class="work-actions">
+                    <span class="action-btn btn-disabled"><i class="fa-solid fa-desktop"></i> Desktop only</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="work-item" data-aos="fade-up" data-aos-delay="200" data-tags="archive game fullstack">
+            <div class="work-img">
+                <div class="badges-row"><span class="badge badge-archive">Archive</span></div>
+                <div class="work-preview preview-game"><div class="preview-grid-bg"></div><div class="label">Starship<br>Game</div></div>
+                <img src="assets/web-project/starship.jpg" alt="Starship Game" onerror="this.style.display='none'">
+            </div>
+            <div class="work-info">
+                <span class="work-cat">Python Game · Full Stack</span>
+                <h3>Starship — Airspace Combat Game</h3>
+                <p>A full-stack 2D space shooter built with Python and PyGame. Sprite animation, scoring, collision physics, level progression — the whole stack from game loop to UI.</p>
+                <div class="tech-stack"><span>Python</span><span>PyGame</span></div>
+                <div class="work-actions">
+                    <span class="action-btn btn-disabled"><i class="fa-solid fa-desktop"></i> Desktop only</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="empty-state" id="emptyState">
+            <i class="fa-regular fa-folder-open"></i>
+            <h3>Nothing here yet</h3>
+            <p>No projects match this filter. Try another category.</p>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="footnote">Logic. Code. Future.</div>
+        <div class="copyright">&copy; 2026 D-MATHS. Crafted in Port Harcourt.</div>
+    </footer>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>AOS.init({ duration: 800 });</script>
+    <script>
+        AOS.init({ duration: 700, once: true, offset: 40 });
+
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const items = document.querySelectorAll('.work-item');
+        const visibleCount = document.getElementById('visibleCount');
+        const emptyState = document.getElementById('emptyState');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
+                let count = 0;
+                items.forEach(item => {
+                    const tags = item.dataset.tags || '';
+                    const show = filter === 'all' || tags.includes(filter);
+                    if (show) {
+                        item.classList.remove('hidden');
+                        item.style.animation = 'none';
+                        void item.offsetWidth;
+                        item.style.animation = 'fadeIn 0.5s ease forwards';
+                        count++;
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+                visibleCount.textContent = count;
+                emptyState.classList.toggle('show', count === 0);
+            });
+        });
+
+        // CSS animation injected for fade-in
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
