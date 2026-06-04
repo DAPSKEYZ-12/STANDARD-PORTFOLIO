@@ -3,107 +3,536 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Gallery | D-MATHS</title>
+    <title>Design & Branding Gallery | D-MATHS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <style>
         :root {
-            --primary: #020617;
+            --primary: #0a0f1f;
+            --ink: #1a1f2e;
+            --muted: #5b6478;
             --accent: #2563eb;
             --orange: #f97316;
-            --bg-subtle: #f8fafc;
+            --orange-glow: rgba(249, 115, 22, 0.18);
+            --violet: #7c3aed;
+            --emerald: #10b981;
+            --rose: #e11d48;
+            --paper: #fafaf7;
+            --paper-2: #f4f3ee;
+            --line: rgba(10, 15, 31, 0.08);
+            --glass: rgba(255, 255, 255, 0.78);
+            --display: 'Fraunces', Georgia, serif;
+            --sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+            --shadow-sm: 0 2px 8px rgba(10, 15, 31, 0.04);
+            --shadow-md: 0 10px 30px -10px rgba(10, 15, 31, 0.08);
+            --shadow-lg: 0 30px 60px -20px rgba(10, 15, 31, 0.18);
+            --t: 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+            /* domain accent override */
+            --domain: var(--orange);
+            --domain-glow: var(--orange-glow);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
         body {
-            background:
-                radial-gradient(circle at 0% 0%, rgba(37, 99, 235, 0.15), transparent 35%),
-                radial-gradient(circle at 100% 100%, rgba(249, 115, 22, 0.12), transparent 40%),
-                var(--bg-subtle);
+            font-family: var(--sans);
             color: var(--primary);
-            padding-bottom: 50px;
+            background: var(--paper);
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+            pointer-events: none; z-index: 1;
+            opacity: 0.5;
+            mix-blend-mode: multiply;
+        }
+        ::selection { background: var(--primary); color: var(--orange); }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--paper); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 0; }
+
+        .gallery-header {
+            padding: 50px 6% 60px;
+            background: var(--paper);
+            border-bottom: 1px solid var(--line);
+            position: relative;
+            overflow: hidden;
+        }
+        .gallery-header::before {
+            content: ''; position: absolute;
+            top: -200px; right: -100px;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, var(--domain-glow), transparent 70%);
+            border-radius: 50%; filter: blur(40px);
+        }
+        .header-inner { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; }
+
+        .breadcrumb {
+            display: inline-flex; align-items: center; gap: 8px;
+            text-decoration: none;
+            font-size: 0.85rem; font-weight: 600; color: var(--muted);
+            padding: 8px 14px;
+            border: 1px solid var(--line); border-radius: 999px;
+            background: white;
+            transition: var(--t);
+            margin-bottom: 30px;
+        }
+        .breadcrumb:hover {
+            color: var(--domain); border-color: var(--domain); transform: translateX(-3px);
+        }
+        .breadcrumb i { transition: var(--t); }
+        .breadcrumb:hover i { transform: translateX(-3px); }
+
+        .header-grid {
+            display: grid; grid-template-columns: 1.4fr 1fr;
+            gap: 50px; align-items: end;
         }
 
-        .header {
-            padding: 60px 8% 40px;
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            text-align: center;
+        .section-tag {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 0.78rem; font-weight: 700;
+            letter-spacing: 1.5px; text-transform: uppercase;
+            color: var(--domain); margin-bottom: 16px;
         }
-        .btn-back {
-            text-decoration: none; color: var(--accent); font-weight: 700;
-            display: inline-flex; align-items: center; gap: 8px; margin-bottom: 20px;
-            transition: 0.3s;
+        .section-tag::before {
+            content: ''; width: 28px; height: 1px; background: var(--domain);
         }
-        .btn-back:hover { transform: translateX(-5px); color: var(--orange); }
+
+        .gallery-header h1 {
+            font-family: var(--display);
+            font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+            font-weight: 700;
+            line-height: 0.98;
+            letter-spacing: -2.5px;
+        }
+        .gallery-header h1 .italic {
+            font-style: italic; font-weight: 400;
+            background: linear-gradient(95deg, var(--domain), #e11d48);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gallery-header .lead {
+            font-size: 1.05rem; color: var(--muted);
+            max-width: 480px; margin-left: auto;
+        }
+
+        .toolbar {
+            padding: 24px 6%;
+            position: sticky; top: 0; z-index: 100;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--line);
+        }
+        .toolbar-inner {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 20px; flex-wrap: wrap;
+        }
+        .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+        .filter-btn {
+            padding: 9px 16px; border-radius: 999px;
+            background: white; border: 1px solid var(--line);
+            font-family: var(--sans);
+            font-weight: 700; font-size: 0.82rem;
+            color: var(--ink); cursor: pointer;
+            transition: var(--t);
+            display: inline-flex; align-items: center; gap: 7px;
+        }
+        .filter-btn .count {
+            background: var(--paper-2);
+            padding: 1px 7px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--muted);
+            transition: var(--t);
+        }
+        .filter-btn:hover { border-color: var(--primary); }
+        .filter-btn.active {
+            background: var(--primary); color: white; border-color: var(--primary);
+        }
+        .filter-btn.active .count { background: var(--domain); color: var(--primary); }
+
+        .results-count {
+            font-size: 0.85rem; color: var(--muted); font-weight: 600;
+        }
+        .results-count strong { color: var(--primary); }
 
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px; padding: 50px 8%;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px;
+            padding: 50px 6% 80px;
+            max-width: 1400px; margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
 
         .work-item {
-            background: white; border-radius: 24px; overflow: hidden;
-            border: 1px solid rgba(37, 99, 235, 0.08);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); transition: 0.4s;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            transition: var(--t);
+            position: relative;
+            display: flex; flex-direction: column;
         }
-        .work-item:hover { transform: translateY(-10px); box-shadow: 0 18px 35px rgba(2, 6, 23, 0.12); }
-        .work-img { height: 250px; background: #e2e8f0; width: 100%; }
-        .work-img img { width: 100%; height: 100%; object-fit: cover; }
+        .work-item.hidden { display: none; }
+        .work-item:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(249, 115, 22, 0.25);
+        }
 
-        .work-info { padding: 25px; }
-        .work-info h3 { margin-bottom: 10px; font-size: 1.3rem; }
-        .work-info p { color: #64748b; font-size: 0.95rem; line-height: 1.5; }
+        .work-img {
+            position: relative;
+            aspect-ratio: 4/5;
+            background: var(--paper-2);
+            overflow: hidden;
+        }
+        .work-img img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .work-img .work-preview + img {
+            position: absolute; inset: 0;
+            z-index: 2;
+        }
+        .work-item:hover .work-img img { transform: scale(1.04); }
+
+        .work-preview {
+            width: 100%; height: 100%;
+            display: grid; place-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .work-preview .label {
+            position: relative; z-index: 2;
+            font-family: var(--display);
+            font-style: italic;
+            font-size: 2rem;
+            color: white;
+            text-shadow: 0 4px 24px rgba(0,0,0,0.3);
+            letter-spacing: -1px;
+            text-align: center;
+            padding: 0 24px;
+            line-height: 1.05;
+        }
+        .preview-grid-bg {
+            position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.08) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+        .preview-birthday { background: linear-gradient(135deg, #e11d48, #f97316); }
+        .preview-brand { background: linear-gradient(135deg, #2563eb, #0a0f1f); }
+        .preview-church { background: linear-gradient(135deg, #7c3aed, #2563eb); }
+        .preview-blossom { background: linear-gradient(135deg, #10b981, #f97316); }
+
+        .badges-row {
+            position: absolute;
+            top: 14px; left: 14px;
+            display: flex; gap: 6px; z-index: 3;
+        }
+        .badge {
+            font-size: 0.7rem; font-weight: 800;
+            letter-spacing: 0.8px; text-transform: uppercase;
+            padding: 5px 10px;
+            border-radius: 6px;
+            display: inline-flex; align-items: center; gap: 5px;
+        }
+        .badge-client { background: var(--accent); color: white; }
+        .badge-personal { background: var(--orange); color: var(--primary); }
+        .badge-tool { background: rgba(255,255,255,0.9); color: var(--primary); backdrop-filter: blur(6px); }
+
+        .work-info {
+            padding: 22px 22px 24px;
+            flex: 1;
+            display: flex; flex-direction: column;
+        }
+        .work-cat {
+            display: inline-block;
+            font-size: 0.7rem; font-weight: 700;
+            letter-spacing: 1.2px; text-transform: uppercase;
+            color: var(--domain);
+            margin-bottom: 10px;
+        }
+        .work-info h3 {
+            font-family: var(--display);
+            font-size: 1.25rem;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -0.4px;
+            margin-bottom: 10px;
+        }
+        .work-info p {
+            color: var(--muted);
+            font-size: 0.88rem;
+            line-height: 1.55;
+            margin-bottom: 16px;
+            flex: 1;
+        }
+
+        .tech-stack {
+            display: flex; flex-wrap: wrap; gap: 5px;
+            margin-bottom: 18px;
+        }
+        .tech-stack span {
+            font-size: 0.7rem; font-weight: 700;
+            padding: 4px 9px;
+            border-radius: 5px;
+            background: var(--paper-2);
+            color: var(--ink);
+        }
+
+        .work-actions {
+            display: flex; gap: 8px;
+            padding-top: 16px;
+            border-top: 1px solid var(--line);
+        }
+        .action-btn {
+            flex: 1;
+            display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+            padding: 11px 14px;
+            border-radius: 10px;
+            font-size: 0.82rem; font-weight: 700;
+            text-decoration: none;
+            transition: var(--t);
+            font-family: var(--sans);
+            cursor: pointer;
+            border: none;
+        }
+        .btn-view {
+            background: var(--primary); color: white;
+        }
+        .btn-view:hover {
+            background: var(--domain);
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px -6px var(--domain-glow);
+        }
+        .btn-view .arrow { transition: var(--t); }
+        .btn-view:hover .arrow { transform: translate(2px, -2px); }
+        .btn-info {
+            background: var(--paper-2);
+            color: var(--primary);
+            flex: 0 0 auto;
+            min-width: 44px;
+        }
+        .btn-info:hover { background: var(--domain); color: var(--primary); }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--muted);
+            display: none;
+        }
+        .empty-state.show { display: block; }
+        .empty-state i { font-size: 3rem; color: var(--line); margin-bottom: 20px; }
+        .empty-state h3 { font-family: var(--display); font-size: 1.6rem; color: var(--primary); margin-bottom: 8px; }
+
+        footer {
+            padding: 50px 6% 30px;
+            background: var(--primary); color: var(--paper);
+            text-align: center;
+            position: relative; z-index: 2;
+        }
+        footer .footnote {
+            font-family: var(--display); font-style: italic;
+            font-size: 1.1rem; opacity: 0.7;
+            margin-bottom: 8px;
+        }
+        footer .copyright { font-size: 0.85rem; color: rgba(255,255,255,0.4); }
 
         @media (max-width: 768px) {
-            .header { padding-top: 40px; }
-            .gallery-grid { padding: 30px 5%; }
+            .gallery-header { padding: 30px 5% 40px; }
+            .header-grid { grid-template-columns: 1fr; gap: 24px; }
+            .gallery-header .lead { margin-left: 0; max-width: 100%; }
+            .gallery-grid { padding: 40px 5%; gap: 18px; grid-template-columns: 1fr; }
+            .toolbar { padding: 16px 5%; }
+            .filters { gap: 6px; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 6px; }
+            .filter-btn { white-space: nowrap; flex-shrink: 0; }
+            .results-count { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <header class="header">
-        <a href="index.html" class="btn-back"><i class="fas fa-arrow-left"></i> Back to Portfolio</a>
-        <h1 data-aos="fade-down">Flyer Design & Branding Showcase</h1>
-        <p data-aos="fade-up">A deep dive into my specialized works</p>
+    <header class="gallery-header">
+        <div class="header-inner">
+            <a href="index.html" class="breadcrumb"><i class="fas fa-arrow-left"></i> Back to portfolio</a>
+            <div class="header-grid">
+                <div data-aos="fade-up">
+                    <div class="section-tag">Design & Branding</div>
+                    <h1>Flyers, posters &amp; <span class="italic">identity</span> work.</h1>
+                </div>
+                <p class="lead" data-aos="fade-up" data-aos-delay="120">
+                    Brand work for the D-Maths page alongside flyer and poster commissions. Everything below was crafted entirely in <strong>Pixel Lab</strong>.
+                </p>
+            </div>
+        </div>
     </header>
 
-    <div class="gallery-grid">
-        <div class="work-item" data-aos="zoom-in">
-            <div class="work-img"><img src="assets/design-project/graphics1.jpg" alt="Work 1"></div>
+    <div class="toolbar">
+        <div class="toolbar-inner">
+            <div class="filters" id="filters">
+                <button class="filter-btn active" data-filter="all">All <span class="count">4</span></button>
+                <button class="filter-btn" data-filter="flyer">Flyers <span class="count">2</span></button>
+                <button class="filter-btn" data-filter="branding">Branding <span class="count">1</span></button>
+                <button class="filter-btn" data-filter="poster">Posters <span class="count">1</span></button>
+                <button class="filter-btn" data-filter="client">Client work <span class="count">2</span></button>
+            </div>
+            <div class="results-count">Showing <strong id="visibleCount">4</strong> of 4 designs</div>
+        </div>
+    </div>
+
+    <div class="gallery-grid" id="grid">
+
+        <div class="work-item" data-aos="fade-up" data-tags="flyer">
+            <div class="work-img">
+                <div class="badges-row"><span class="badge badge-personal">Event</span><span class="badge badge-tool">Pixel Lab</span></div>
+                <div class="work-preview preview-birthday"><div class="preview-grid-bg"></div><div class="label">Birthday<br>Flyer</div></div>
+                <img src="assets/design-project/graphics1.jpg" alt="Birthday Flyer" onerror="this.style.display='none'">
+            </div>
             <div class="work-info">
-                <h3>Birthday Flyer Design</h3>
-                <p> Birthday Flyer Design using Pixel-Lab</p>
+                <span class="work-cat">Flyer</span>
+                <h3>Birthday Celebration Flyer</h3>
+                <p>A celebratory flyer design with bold typography and warm gradients — composed entirely in Pixel Lab on mobile.</p>
+                <div class="tech-stack"><span>Pixel Lab</span><span>Typography</span><span>Color theory</span></div>
+                <div class="work-actions">
+                    <a href="assets/design-project/graphics1.jpg" target="_blank" rel="noopener noreferrer" class="action-btn btn-view">
+                        View full size <span class="arrow">↗</span>
+                    </a>
+                    <button class="action-btn btn-info" title="Project info" aria-label="Info"><i class="fa-solid fa-info"></i></button>
+                </div>
             </div>
         </div>
 
-        <div class="work-item" data-aos="zoom-in" data-aos-delay="100">
-            <div class="work-img"><img src="assets/design-project/D-Maths.jpg" alt="Work 2"></div>
+        <div class="work-item" data-aos="fade-up" data-aos-delay="50" data-tags="branding">
+            <div class="work-img">
+                <div class="badges-row"><span class="badge badge-personal">Personal</span><span class="badge badge-tool">Pixel Lab</span></div>
+                <div class="work-preview preview-brand"><div class="preview-grid-bg"></div><div class="label">D-Maths<br>Identity</div></div>
+                <img src="assets/design-project/D-Maths.jpg" alt="D-Maths Brand Identity" onerror="this.style.display='none'">
+            </div>
             <div class="work-info">
-                <h3>Branding and Designing</h3>
-                <p>Branded, designed and managed the social media account of my page by designing and uploading designs frequently</p>
+                <span class="work-cat">Brand Identity</span>
+                <h3>D-Maths Brand &amp; Social Identity</h3>
+                <p>The full visual system for the D-Maths page — logo treatments, social templates, and the ongoing design cadence that runs across Instagram and Facebook.</p>
+                <div class="tech-stack"><span>Pixel Lab</span><span>Brand system</span><span>Social media</span></div>
+                <div class="work-actions">
+                    <a href="assets/design-project/D-Maths.jpg" target="_blank" rel="noopener noreferrer" class="action-btn btn-view">
+                        View full size <span class="arrow">↗</span>
+                    </a>
+                    <button class="action-btn btn-info" title="Project info"><i class="fa-solid fa-info"></i></button>
+                </div>
             </div>
         </div>
 
-        <div class="work-item" data-aos="zoom-in" data-aos-delay="200">
-            <div class="work-img"><img src="assets/design-project/Church.jpg" alt="Work 3"></div>
+        <div class="work-item" data-aos="fade-up" data-aos-delay="100" data-tags="flyer client">
+            <div class="work-img">
+                <div class="badges-row"><span class="badge badge-client">Client</span><span class="badge badge-tool">Pixel Lab</span></div>
+                <div class="work-preview preview-church"><div class="preview-grid-bg"></div><div class="label">Church<br>Flyer</div></div>
+                <img src="assets/design-project/Church.jpg" alt="Church Fellowship Flyer" onerror="this.style.display='none'">
+            </div>
             <div class="work-info">
-                <h3>Church Flyer Design</h3>
-                <p> Designed a Church flyer for a Fellowship</p>
+                <span class="work-cat">Event Flyer · Client</span>
+                <h3>Fellowship Church Flyer</h3>
+                <p>An event flyer commissioned for a church fellowship — balancing visual reverence with attention-grabbing hierarchy for promotion across social channels.</p>
+                <div class="tech-stack"><span>Pixel Lab</span><span>Print &amp; digital</span></div>
+                <div class="work-actions">
+                    <a href="assets/design-project/Church.jpg" target="_blank" rel="noopener noreferrer" class="action-btn btn-view">
+                        View full size <span class="arrow">↗</span>
+                    </a>
+                    <button class="action-btn btn-info" title="Project info"><i class="fa-solid fa-info"></i></button>
+                </div>
             </div>
         </div>
 
-        <div class="work-item" data-aos="zoom-in" data-aos-delay="300">
-            <div class="work-img"><img src="assets/design-project/blossom.jpeg" alt="Work 4"></div>
+        <div class="work-item" data-aos="fade-up" data-aos-delay="150" data-tags="poster client">
+            <div class="work-img">
+                <div class="badges-row"><span class="badge badge-client">Client</span><span class="badge badge-tool">Pixel Lab</span></div>
+                <div class="work-preview preview-blossom"><div class="preview-grid-bg"></div><div class="label">Blossom<br>Bites</div></div>
+                <img src="assets/design-project/blossom.jpeg" alt="Blossom Bites Poster" onerror="this.style.display='none'">
+            </div>
             <div class="work-info">
-                <h3>Poster Design for Blossom Bites</h3>
-                <p> Designed a Poster Design for Blossom Bites </p>
+                <span class="work-cat">Poster · Client</span>
+                <h3>Blossom Bites Promotional Poster</h3>
+                <p>A promotional poster for Blossom Bites — food brand identity translated into a single appetite-driving visual fit for social posting and print.</p>
+                <div class="tech-stack"><span>Pixel Lab</span><span>Brand promo</span></div>
+                <div class="work-actions">
+                    <a href="assets/design-project/blossom.jpeg" target="_blank" rel="noopener noreferrer" class="action-btn btn-view">
+                        View full size <span class="arrow">↗</span>
+                    </a>
+                    <button class="action-btn btn-info" title="Project info"><i class="fa-solid fa-info"></i></button>
+                </div>
             </div>
         </div>
+
+        <div class="empty-state" id="emptyState">
+            <i class="fa-regular fa-folder-open"></i>
+            <h3>Nothing here yet</h3>
+            <p>No designs match this filter. Try another category.</p>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="footnote">Logic. Code. Future.</div>
+        <div class="copyright">&copy; 2026 D-MATHS. Crafted in Port Harcourt.</div>
+    </footer>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>AOS.init({ duration: 800 });</script>
+    <script>
+        AOS.init({ duration: 700, once: true, offset: 40 });
+
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const items = document.querySelectorAll('.work-item');
+        const visibleCount = document.getElementById('visibleCount');
+        const emptyState = document.getElementById('emptyState');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
+                let count = 0;
+                items.forEach(item => {
+                    const tags = item.dataset.tags || '';
+                    const show = filter === 'all' || tags.includes(filter);
+                    if (show) {
+                        item.classList.remove('hidden');
+                        item.style.animation = 'none';
+                        void item.offsetWidth;
+                        item.style.animation = 'fadeIn 0.5s ease forwards';
+                        count++;
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+                visibleCount.textContent = count;
+                emptyState.classList.toggle('show', count === 0);
+            });
+        });
+
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
