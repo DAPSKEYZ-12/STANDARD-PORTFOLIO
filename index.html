@@ -72,22 +72,19 @@
         nav.scrolled { padding: 12px 6%; background: rgba(255,255,255,0.92); }
 
         .logo {
-            font-family: var(--display);
-            font-size: 1.7rem; font-weight: 700;
-            letter-spacing: -1.5px;
-            display: flex; align-items: center; gap: 8px;
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            transition: var(--t);
         }
-        .logo-mark {
-            width: 32px; height: 32px;
-            background: var(--primary);
-            color: var(--orange);
-            display: grid; place-items: center;
-            border-radius: 8px;
-            font-family: var(--sans);
-            font-weight: 900; font-size: 0.95rem;
-            transform: rotate(-3deg);
+        .logo img {
+            height: 38px;
+            width: auto;
+            display: block;
+            transition: var(--t);
         }
-        .logo span { font-style: italic; color: var(--accent); }
+        nav.scrolled .logo img { height: 32px; }
+        .logo:hover img { transform: scale(1.04); }
 
         .nav-links { display: flex; list-style: none; gap: 4px; align-items: center; }
         .nav-links a {
@@ -603,10 +600,9 @@
 <body>
 
     <nav id="navbar">
-        <div class="logo">
-            <span class="logo-mark">D</span>
-            D-MATHS<span>.</span>
-        </div>
+        <a href="#home" class="logo" aria-label="D-MATHS — Home">
+            <img src="assets/d-maths-logo.png" alt="D-MATHS">
+        </a>
         <button class="hamburger" id="bar" aria-label="Menu"><div></div><div></div><div></div></button>
         <ul class="nav-links" id="menu">
             <li><a href="#home" class="nav-item">Home</a></li>
@@ -633,7 +629,7 @@
             </p>
             <div class="hero-actions" data-aos="fade-up" data-aos-delay="240">
                 <a href="#work" class="btn btn-primary">View Selected Work <span class="arrow">→</span></a>
-                <a href="assets/Bakare_Oladapo_CV.pdf" download class="btn btn-resume"><i class="fa-solid fa-file-arrow-down"></i> Download Resume</a>
+                <a href="assets/D-Maths-Resume.pdf" download class="btn btn-resume"><i class="fa-solid fa-file-arrow-down"></i> Download Resume</a>
                 <a href="#contact" class="btn btn-ghost"><i class="fa-regular fa-paper-plane"></i> Start a project</a>
                 <a href="https://dmaths-games.vercel.app" class="btn btn-accent" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-gamepad"></i> Gaming App</a>
             </div>
